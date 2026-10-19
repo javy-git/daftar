@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#b5651d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>حساب المخبز اليومي</title>
+<style>
+  :root{--bg:#f6f1e9;--card:#fff;--ink:#2b2118;--muted:#7a6a5a;--line:#e3d9cb;--brand:#b5651d;--brand-d:#8f4e12;--soft:#fff4e3;--ok:#1b7a3d;--okbg:#e4f4ea;--bad:#b3261e;--badbg:#fbe7e5;--warn:#9a6b00;--warnbg:#fff4d6}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{overflow-x:hidden}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:17px;line-height:1.5}
+  header{background:var(--brand);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+  header h1{margin:0;font-size:21px}
+  header span{font-size:14px;opacity:.95}
+
+  .top{position:sticky;top:0;z-index:10;background:var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+  .tabs{display:flex;background:#fff;border-bottom:1px solid var(--line)}
+  .tabs button{flex:1;background:none;color:var(--muted);border-radius:0;padding:11px 6px;border-bottom:3px solid transparent;font-weight:600}
+  .tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+  .statusbar{display:flex;align-items:stretch;gap:8px;padding:8px 10px;max-width:1000px;margin:0 auto}
+  .sb{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px 8px;min-width:0}
+  .sb .k{display:block;font-size:12px;color:var(--muted)}
+  .sb b{display:block;font-size:17px;direction:ltr;text-align:right;white-space:nowrap}
+  .sb.ok{background:var(--okbg);border-color:var(--ok)} .sb.ok b{color:var(--ok)}
+  .sb.bad{background:var(--badbg);border-color:var(--bad)} .sb.bad b{color:var(--bad)}
+  .statusbar button{padding:6px 12px;align-self:center}
+
+  main{max-width:1000px;margin:0 auto;padding:12px}
+  .tab{display:grid;gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .card-h h2{margin:0;font-size:18px;color:var(--brand)}
+  .num{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .badge{margin-inline-start:auto;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .grid>*{min-width:0}
+  label{display:block;font-size:15px;color:var(--muted);margin-bottom:4px}
+  input,textarea,select{width:100%;font:inherit;min-height:46px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fffdf9;color:var(--ink)}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  .hint{font-size:13px;color:var(--muted);margin-top:3px}
+  .note{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:8px;font-size:15px}
+
+  button{font:inherit;padding:10px 18px;border-radius:8px;border:0;cursor:pointer;background:var(--brand);color:#fff}
+  button.sec{background:#eadfce;color:var(--ink)}
+  button.del{background:var(--badbg);color:var(--bad);padding:6px 12px;font-size:14px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+  .occ{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end;padding:10px;border:1px dashed var(--line);border-radius:10px;margin-top:10px}
+  .occ>*{min-width:0}
+  .o_tot{padding-bottom:12px}
+
+  table{width:100%;border-collapse:collapse}
+  td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
+  td.n{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.total td{font-weight:700;background:#faf5ec}
+  details summary{cursor:pointer;color:var(--brand);font-weight:600;padding:6px 0}
+
+  .result{font-size:22px;font-weight:700;padding:14px;border-radius:10px;text-align:center}
+  .result.ok{background:var(--okbg);color:var(--ok)}
+  .result.bad{background:var(--badbg);color:var(--bad)}
+  .result.none{background:#f1ece3;color:var(--muted);font-size:17px;font-weight:400}
+  .warn{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:8px;margin-top:10px;font-size:15px}
+
+  .dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 10px}
+  .tile{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fffdf9;min-width:0}
+  .tile .t{color:var(--muted);font-size:14px}
+  .tile .v{font-size:20px;font-weight:700;direction:ltr;text-align:right}
+  .tile .s{font-size:13px;color:var(--muted)}
+  .tile.total{background:var(--soft);border-color:var(--brand)}
+  .pos{color:var(--ok)} .neg{color:var(--bad)}
+  h3.sub{font-size:16px;color:var(--brand);margin:20px 0 8px}
+  #costContent .result{font-size:19px}
+
+  .day{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fffdf9;margin-top:10px}
+  .day-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .day-date{font-weight:700;color:var(--ink);text-decoration:none}
+  .chip{padding:2px 12px;border-radius:999px;font-size:14px;font-weight:700}
+  .chip.ok{background:var(--okbg);color:var(--ok)} .chip.bad{background:var(--badbg);color:var(--bad)} .chip.none{background:#f1ece3;color:var(--muted)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:6px 12px;margin-top:8px;font-size:15px}
+  .stats span{display:block;color:var(--muted);font-size:13px}
+  .stats b{display:block;direction:ltr;text-align:right}
+  .day-notes{margin-top:6px;font-size:14px;color:var(--muted)}
+  .day .btns{margin-top:10px}
+
+  @media(max-width:700px){
+    main{padding:8px}
+    .card{padding:12px}
+    .btns button{flex:1 1 45%}
+    .day .btns button{flex:1 1 40%}
+  }
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;max-width:92vw;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .toast.err{background:var(--bad)}
+  .modal{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .modal-box{background:#fff;border-radius:14px;padding:18px;max-width:420px;width:100%;font-size:18px}
+  .modal-box .btns button{flex:1}
+  @page{margin:12mm}
+  @media print{
+    .top,.btns,.no-print,.toast,.modal{display:none!important}
+    body{background:#fff}
+    .card{break-inside:avoid;border:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🍞 حساب المخبز اليومي</h1>
+  <span id="todayLabel"></span>
+</header>
+
+<div class="top">
+  <nav class="tabs">
+    <button type="button" data-tab="day" class="on">حساب اليوم</button>
+    <button type="button" data-tab="hist">السجل</button>
+    <button type="button" data-tab="set">الإعدادات</button>
+  </nav>
+  <div class="statusbar" id="statusbar">
+    <div class="sb"><span class="k">المتوقع في الدرج</span><b id="sb_exp">0</b></div>
+    <div class="sb"><span class="k">الفعلي</span><b id="sb_act">—</b></div>
+    <div class="sb" id="sb_diffbox"><span class="k">الفرق</span><b id="sb_diff">—</b></div>
+    <button type="button" id="saveBtn">💾 حفظ</button>
+  </div>
+</div>
+
+<main>
+
+<div class="note" id="storeNote" hidden style="margin-bottom:12px"></div>
+
+<!-- ===== حساب اليوم ===== -->
+<div id="tab-day" class="tab">
+
+  <div class="note" id="dateNote" hidden></div>
+
+  <section class="card">
+    <div class="card-h"><span class="num">1</span><h2>الخبز</h2><span class="badge" id="b_net">صافي المفرد: 0 خبزة</span></div>
+    <div class="grid">
+      <div><label>التاريخ</label><input type="date" id="date"></div>
+      <div><label>عدد العجائن</label><input type="number" id="doughs" min="0" inputmode="numeric"><div class="hint" id="doughHint"></div></div>
+      <div><label>عدد الخبز المنتج</label><input type="number" id="production" min="0" inputmode="numeric"><div class="hint">لا تُدخل التالف، فهو لا يُحسب أصلًا</div></div>
+      <div><label>عدد أكياس الجملة (التوزيع)</label><input type="number" id="bags" min="0" inputmode="numeric"></div>
+      <div><label>خبز العمال</label><input type="number" id="workerBread" min="0" inputmode="numeric"></div>
+      <div><label>خبز صاحب المخبز</label><input type="number" id="ownerBread" min="0" inputmode="numeric"></div>
+      <div><label>خبز متبقٍ (لم يُبع)</label><input type="number" id="leftover" min="0" inputmode="numeric"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><span class="num">2</span><h2>المناسبات (اختياري)</h2><span class="badge" id="b_occ">المبلغ: 0</span></div>
+    <div class="hint" style="margin-top:0">زبون أخذ أكياسًا بسعر خاص. تُطرح أكياسه من الإنتاج، ومبلغها منفصل ولا يدخل الدرج.</div>
+    <div id="occList"></div>
+    <div class="btns"><button type="button" class="sec" id="addOcc">+ إضافة زبون مناسبة</button></div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><span class="num">3</span><h2>النقد والديون</h2></div>
+    <div class="grid">
+      <div><label>مبلغ الدين (بيع المفرد بالآجل)</label><input type="number" id="debt" min="0" inputmode="decimal"></div>
+      <div><label>نقد أُعطي للعمال (أجور)</label><input type="number" id="workerCash" min="0" inputmode="decimal"></div>
+      <div><label>مسحوبات صاحب المخبز (نقد)</label><input type="number" id="ownerCash" min="0" inputmode="decimal"></div>
+      <div><label>مجموع التحويلات البنكية (زبائن المفرد)</label><input type="number" id="bankTransfer" min="0" inputmode="decimal"><div class="hint">يُطرح من المتوقع لأنه لم يدخل الدرج. لا تُدخل فيه تحويلات الجملة</div></div>
+      <div><label style="color:var(--ink);font-weight:700">المبلغ الفعلي الموجود في الدرج</label><input type="number" id="actual" min="0" inputmode="decimal"><div class="hint">لا تُدخل فيه ديونًا قديمة محصّلة</div></div>
+      <div><label>ديون قديمة تم تحصيلها (للتسجيل فقط)</label><input type="number" id="oldDebt" min="0" inputmode="decimal"><div class="hint">لا تدخل في الحساب</div></div>
+    </div>
+    <div style="margin-top:12px"><label>ملاحظات (سبب الفرق مثلًا)</label><textarea id="notes" rows="2"></textarea></div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><span class="num">4</span><h2>النتيجة</h2></div>
+    <div class="result none" id="verdict">أدخل البيانات لتظهر النتيجة</div>
+    <div id="warnings"></div>
+
+    <div class="dash">
+      <div class="tile"><div class="t">البيع المفرد</div><div class="v" id="d_retail">0</div><div class="s" id="d_retailS"></div></div>
+      <div class="tile"><div class="t">التوزيع (الجملة)</div><div class="v" id="d_whole">0</div><div class="s" id="d_wholeS"></div></div>
+      <div class="tile" id="d_occTile"><div class="t">المناسبات</div><div class="v" id="d_occ">0</div><div class="s" id="d_occS"></div></div>
+      <div class="tile total"><div class="t">إجمالي المبيعات</div><div class="v" id="d_total">0</div></div>
+    </div>
+    <table>
+      <tr><td>إجمالي المبيعات</td><td class="n" id="d_total2">0</td></tr>
+      <tr><td>− ديون المفرد (لم تُحصَّل)</td><td class="n" id="d_debt">0</td></tr>
+      <tr class="total"><td>إجمالي المبلغ المتحصل</td><td class="n" id="d_collected">0</td></tr>
+    </table>
+    <div class="hint">المتحصل يشمل ما في الدرج وتحويلات المفرد ومبالغ الجملة والمناسبات. مبالغ الجملة والمناسبات تُعتبر محصّلة بالكامل ولا تدخل الدرج.</div>
+
+    <h3 class="sub">التكلفة والربح</h3>
+    <div id="costContent">
+      <div class="result none" id="costVerdict"></div>
+      <div class="dash">
+        <div class="tile"><div class="t">تكلفة العجائن</div><div class="v" id="c_cost">0</div><div class="s" id="c_costS"></div></div>
+        <div class="tile"><div class="t">الإيراد</div><div class="v" id="c_rev">0</div></div>
+        <div class="tile total"><div class="t">الربح</div><div class="v" id="c_profit">0</div></div>
+        <div class="tile total"><div class="t">نسبة الربح من الإيراد</div><div class="v" id="c_margin">0%</div></div>
+      </div>
+    </div>
+    <div class="hint" id="costHint"></div>
+
+    <details style="margin-top:10px">
+      <summary>تفاصيل حساب الدرج</summary>
+      <table>
+        <tr><td>إجمالي الإنتاج</td><td class="n" id="r_prod">0</td></tr>
+        <tr><td>− الخبز الموزع جملة (<span id="r_bagsTxt">0</span> كيس)</td><td class="n" id="r_wholesaleBread">0</td></tr>
+        <tr><td>− الخبز الموزع للمناسبات (<span id="r_occBags">0</span> كيس)</td><td class="n" id="r_occBread">0</td></tr>
+        <tr><td>− خبز العمال</td><td class="n" id="r_wb">0</td></tr>
+        <tr><td>− خبز صاحب المخبز</td><td class="n" id="r_ob">0</td></tr>
+        <tr><td>− الخبز المتبقي</td><td class="n" id="r_left">0</td></tr>
+        <tr class="total"><td>صافي الخبز المباع بالمفرد</td><td class="n" id="r_net">0</td></tr>
+        <tr><td>قيمة بيع المفرد</td><td class="n" id="r_sales">0</td></tr>
+        <tr><td>− الديون</td><td class="n" id="r_debt">0</td></tr>
+        <tr><td>− أجور العمال</td><td class="n" id="r_wc">0</td></tr>
+        <tr><td>− مسحوبات صاحب المخبز</td><td class="n" id="r_oc">0</td></tr>
+        <tr><td>− التحويلات البنكية</td><td class="n" id="r_bt">0</td></tr>
+        <tr class="total"><td>المبلغ المتوقع في الدرج</td><td class="n" id="r_expected">0</td></tr>
+        <tr><td>المبلغ الفعلي في الدرج</td><td class="n" id="r_actual">0</td></tr>
+      </table>
+    </details>
+
+    <div class="btns">
+      <button type="button" id="saveBtn2">💾 حفظ هذا اليوم</button>
+      <button type="button" class="sec" id="clearBtn">يوم جديد</button>
+      <button type="button" class="sec" id="printBtn">طباعة</button>
+    </div>
+  </section>
+</div>
+
+<!-- ===== السجل ===== -->
+<div id="tab-hist" class="tab" hidden>
+  <section class="card">
+    <div class="card-h"><h2>ملخص</h2><span class="badge" style="padding:0;background:none"><select id="monthSel" style="min-height:38px;padding:4px 8px"></select></span></div>
+    <div class="dash" id="monthDash" style="margin-bottom:0"></div>
+    <div class="hint" id="histEmpty">لا توجد سجلات محفوظة بعد.</div>
+  </section>
+  <section class="card">
+    <div class="card-h"><h2>الأيام</h2><button type="button" class="sec" id="csvBtn" style="margin-inline-start:auto">تصدير Excel / CSV</button></div>
+    <div id="histList"></div>
+  </section>
+</div>
+
+<!-- ===== الإعدادات ===== -->
+<div id="tab-set" class="tab" hidden>
+  <section class="card">
+    <div class="card-h"><h2>الأسعار</h2></div>
+    <div class="grid">
+      <div><label>عدد الخبزات في البيع بالمفرد</label><input type="number" id="s_retailQty" min="1" inputmode="decimal"></div>
+      <div><label>سعرها (جنيه)</label><input type="number" id="s_retailPrice" min="0" inputmode="decimal"></div>
+      <div><label>عدد الخبز في الكيس</label><input type="number" id="s_bagQty" min="1" inputmode="decimal"></div>
+      <div><label>سعر كيس الجملة (جنيه)</label><input type="number" id="s_bagPrice" min="0" inputmode="decimal"></div>
+      <div><label>تكلفة العجنة الواحدة (جنيه)</label><input type="number" id="s_doughCost" min="0" inputmode="decimal"><div class="hint">دقيق وخميرة ووقود وأجور عمال، أي كل ما يلزم لإنتاج عجنة واحدة</div></div>
+    </div>
+    <div class="hint">الحالي: <span id="priceInfo"></span>. تُحفظ تلقائيًا وتُطبَّق على الحساب الحالي. السجلات المحفوظة سابقًا تحتفظ بالأسعار التي حُسبت بها.</div>
+  </section>
+  <section class="card">
+    <div class="card-h"><h2>نسخة احتياطية</h2></div>
+    <div class="hint" style="margin-top:0">السجلات محفوظة داخل هذا المتصفح على هذا الجهاز فقط. صدّر نسخة احتياطية من وقت لآخر، ويمكنك استيرادها في أي جهاز أو متصفح آخر.</div>
+    <div class="btns">
+      <button type="button" id="exportBtn">تصدير نسخة احتياطية</button>
+      <button type="button" class="sec" id="importBtn">استيراد نسخة احتياطية</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-box">
+    <div id="modalMsg"></div>
+    <div class="btns"><button type="button" id="modalYes">نعم</button><button type="button" class="sec" id="modalNo">إلغاء</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){return document.getElementById(id)};
+  var KEY_REC = "bakery_records_v1", KEY_SET = "bakery_settings_v1", KEY_DRAFT = "bakery_draft_v1";
+  var DEFAULTS = {retailQty:3, retailPrice:1000, bagQty:50, bagPrice:15000, doughCost:0};
+  var INPUTS = ["doughs","production","bags","workerBread","ownerBread","leftover","debt","workerCash","ownerCash","bankTransfer","actual","oldDebt"];
+
+  function load(key, def){ try{ var v = JSON.parse(localStorage.getItem(key)); return v==null?def:v; }catch(e){ return def; } }
+  function store(key, val, silent){ try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ if(!silent) toast("تعذّر الحفظ في المتصفح.", true); return false; } }
+
+  var settings = Object.assign({}, DEFAULTS, load(KEY_SET, {}));
+  var records = load(KEY_REC, []);
+  if(!Array.isArray(records)) records = [];
+
+  function num(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function fmt(n){ return Math.round(n).toLocaleString("en-US"); }
+  function fmtSigned(n){ var r = Math.round(n); return (r>0?"+":"") + r.toLocaleString("en-US"); }
+  function fmtDate(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  function todayStr(){ return fmtDate(new Date()); }
+  // اليوم إن لم يكن محفوظًا، وإلا أول يوم تالٍ غير محفوظ (حتى لا يُستبدل يوم محفوظ بالخطأ)
+  function suggestDate(){
+    var saved = {}; records.forEach(function(r){ saved[r.date] = 1; });
+    var d = new Date(), guard = 0;
+    while(saved[fmtDate(d)] && guard++ < 3660) d.setDate(d.getDate() + 1);
+    return fmtDate(d);
+  }
+  var toastTimer;
+  function toast(msg, isErr){ var t = $("toast"); t.textContent = msg; t.className = "toast" + (isErr ? " err" : ""); t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.hidden = true; }, isErr ? 5000 : 3500); }
+  // نافذة تأكيد داخل الصفحة (بدل نافذة المتصفح التي قد تُحجب)
+  function ask(msg, onYes, yesLabel){
+    $("modalMsg").textContent = msg;
+    $("modalYes").textContent = yesLabel || "نعم";
+    $("modal").hidden = false;
+    function close(){ $("modal").hidden = true; $("modalYes").onclick = null; $("modalNo").onclick = null; }
+    $("modalYes").onclick = function(){ close(); onYes(); };
+    $("modalNo").onclick = close;
+  }
+  function hasData(){ return INPUTS.some(function(k){ return $(k).value !== ""; }) || $("notes").value.trim() !== "" || document.querySelectorAll("#occList .occ").length > 0; }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]}); }
+  function dateLabel(ds, full){
+    var d = new Date(ds + "T00:00:00");
+    if(isNaN(d)) return ds;
+    return d.toLocaleDateString("ar-EG-u-nu-latn", full ? {weekday:"long",year:"numeric",month:"long",day:"numeric"} : {weekday:"long",day:"numeric",month:"long"});
+  }
+
+  /* ---------- الحساب ---------- */
+  function calc(s){
+    var st = s || settings;
+    var d = s ? s.data : null;
+    function g(k){ return d ? (Number(d[k])||0) : num(k); }
+    var occ = s ? (s.occasions||[]) : readOcc();
+    var occBags = 0, occMoney = 0;
+    occ.forEach(function(o){ occBags += o.bags; occMoney += o.bags * o.price; });
+    var wholesaleBread = g("bags") * st.bagQty;
+    var occBread = occBags * st.bagQty;
+    var net = g("production") - wholesaleBread - occBread - g("workerBread") - g("ownerBread") - g("leftover");
+    var sales = net * (st.retailPrice / st.retailQty);
+    var expected = sales - g("debt") - g("workerCash") - g("ownerCash") - g("bankTransfer");
+    var actual = g("actual");
+    var wholesaleMoney = g("bags") * st.bagPrice;
+    var total = sales + wholesaleMoney + occMoney;
+    var doughs = g("doughs"), doughCost = Number(st.doughCost) || 0;
+    var cost = doughs * doughCost, profit = total - cost;
+    var hasCost = doughs > 0 && doughCost > 0;
+    return {wholesaleBread:wholesaleBread, net:net, sales:sales, expected:expected, actual:actual, diff:actual-expected,
+            wholesaleMoney:wholesaleMoney, occBags:occBags, occBread:occBread, occMoney:occMoney,
+            retailDebt:g("debt"), total:total, collected:total-g("debt"),
+            doughs:doughs, cost:cost, profit:profit, margin:(total > 0 ? profit/total*100 : 0), hasCost:hasCost};
+  }
+
+  function histCalc(rec){
+    var st = rec.settings;
+    return calc({retailQty:st.retailQty,retailPrice:st.retailPrice,bagQty:st.bagQty,bagPrice:st.bagPrice,doughCost:st.doughCost,data:rec.data,occasions:rec.occasions||[]});
+  }
+
+  /* ---------- المناسبات ---------- */
+  function readOcc(){
+    var out = [];
+    document.querySelectorAll("#occList .occ").forEach(function(row){
+      var b = parseFloat(row.querySelector(".o_bags").value), p = parseFloat(row.querySelector(".o_price").value);
+      out.push({name:row.querySelector(".o_name").value.trim(), bags:isNaN(b)?0:b, price:isNaN(p)?0:p});
+    });
+    return out;
+  }
+
+  function addOccRow(o){
+    o = o || {};
+    var div = document.createElement("div"); div.className = "occ";
+    div.innerHTML = '<div><label>اسم الزبون</label><input type="text" class="o_name"></div>'+
+      '<div><label>عدد الأكياس</label><input type="number" min="0" inputmode="numeric" class="o_bags"></div>'+
+      '<div><label>سعر الكيس (جنيه)</label><input type="number" min="0" inputmode="decimal" class="o_price"></div>'+
+      '<div class="o_tot">المبلغ: <b class="o_sum">0</b></div>'+
+      '<div><button type="button" class="del o_del">حذف</button></div>';
+    div.querySelector(".o_name").value = o.name || "";
+    div.querySelector(".o_bags").value = o.bags ? o.bags : "";
+    div.querySelector(".o_price").value = o.price ? o.price : "";
+    div.addEventListener("input", update);
+    div.querySelector(".o_del").addEventListener("click", function(){ div.remove(); update(); });
+    $("occList").appendChild(div);
+  }
+
+  /* ---------- العرض ---------- */
+  function render(){
+    var r = calc();
+    $("priceInfo").textContent = settings.retailQty+" خبزات بـ"+fmt(settings.retailPrice)+" جنيه، والكيس "+settings.bagQty+" خبزة بـ"+fmt(settings.bagPrice)+" جنيه"+(settings.doughCost > 0 ? "، وتكلفة العجنة الواحدة "+fmt(settings.doughCost)+" جنيه" : "، ولم تُحدَّد تكلفة العجنة بعد");
+
+    $("r_prod").textContent = fmt(num("production"));
+    $("r_bagsTxt").textContent = fmt(num("bags"));
+    $("r_wholesaleBread").textContent = fmt(r.wholesaleBread);
+    $("r_occBags").textContent = fmt(r.occBags);
+    $("r_occBread").textContent = fmt(r.occBread);
+    $("r_wb").textContent = fmt(num("workerBread"));
+    $("r_ob").textContent = fmt(num("ownerBread"));
+    $("r_left").textContent = fmt(num("leftover"));
+    $("r_net").textContent = fmt(r.net);
+    $("r_sales").textContent = fmt(r.sales);
+    $("r_debt").textContent = fmt(num("debt"));
+    $("r_wc").textContent = fmt(num("workerCash"));
+    $("r_oc").textContent = fmt(num("ownerCash"));
+    $("r_bt").textContent = fmt(num("bankTransfer"));
+    $("r_expected").textContent = fmt(r.expected);
+    $("r_actual").textContent = fmt(r.actual);
+
+    document.querySelectorAll("#occList .occ").forEach(function(row){
+      var b = parseFloat(row.querySelector(".o_bags").value) || 0, p = parseFloat(row.querySelector(".o_price").value) || 0;
+      row.querySelector(".o_sum").textContent = fmt(b*p);
+    });
+    $("b_net").textContent = "صافي المفرد: " + fmt(r.net) + " خبزة";
+    $("b_occ").textContent = "المبلغ: " + fmt(r.occMoney);
+
+    $("d_retail").textContent = fmt(r.sales);
+    $("d_retailS").textContent = fmt(r.net) + " خبزة";
+    $("d_whole").textContent = fmt(r.wholesaleMoney);
+    $("d_wholeS").textContent = fmt(num("bags")) + " كيس × " + fmt(settings.bagPrice);
+    $("d_occ").textContent = fmt(r.occMoney);
+    $("d_occS").textContent = fmt(r.occBags) + " كيس";
+    $("d_occTile").hidden = !(r.occBags > 0 || r.occMoney > 0);
+    $("d_total").textContent = fmt(r.total);
+    $("d_total2").textContent = fmt(r.total);
+    $("d_debt").textContent = fmt(r.retailDebt);
+    $("d_collected").textContent = fmt(r.collected);
+
+    var dg = num("doughs"), prodN = num("production");
+    $("doughHint").textContent = (dg > 0 && prodN > 0) ? "معدل الإنتاج: " + fmt(prodN/dg) + " خبزة لكل عجنة" : "";
+    var ch = [];
+    $("costContent").hidden = !r.hasCost;
+    if(r.hasCost){
+      var pv = r.profit, pc = pv >= 0 ? "pos" : "neg";
+      $("c_cost").textContent = fmt(r.cost);
+      $("c_costS").textContent = fmt(dg) + " عجنة × " + fmt(settings.doughCost);
+      $("c_rev").textContent = fmt(r.total);
+      $("c_profit").innerHTML = '<span class="'+pc+'">'+fmtSigned(pv)+'</span>';
+      $("c_margin").innerHTML = '<span class="'+pc+'">'+r.margin.toFixed(1)+'%</span>';
+      var cv = $("costVerdict");
+      if(pv > 0.5){ cv.className = "result ok"; cv.textContent = "✔ الإيراد غطّى التكلفة، والربح " + fmt(pv) + " جنيه"; }
+      else if(pv >= -0.5){ cv.className = "result none"; cv.textContent = "الإيراد يساوي التكلفة تمامًا (لا ربح ولا خسارة)"; }
+      else { cv.className = "result bad"; cv.textContent = "✘ الإيراد لم يغطِّ التكلفة، والخسارة " + fmt(-pv) + " جنيه"; }
+      if(prodN > 0) ch.push("تكلفة الخبزة الواحدة: " + (r.cost/prodN).toFixed(2) + " جنيه");
+      ch.push("الإيراد = إجمالي المبيعات (يُعتبر محصّلًا)");
+    } else if(dg > 0){
+      ch.push("حدّد تكلفة العجنة من تبويب الإعدادات لتظهر التكلفة والربح.");
+    } else {
+      ch.push("أدخل عدد العجائن لتظهر التكلفة والربح.");
+    }
+    $("costHint").textContent = ch.join(" · ");
+
+    var entered = $("actual").value !== "";
+    var v = $("verdict"), box = $("sb_diffbox"), sbd = $("sb_diff");
+    $("sb_exp").textContent = fmt(r.expected);
+    $("sb_act").textContent = entered ? fmt(r.actual) : "—";
+    if(!entered){
+      v.className = "result none"; v.textContent = "أدخل المبلغ الفعلي في الدرج للمقارنة";
+      box.className = "sb"; sbd.textContent = "—";
+    } else if(Math.abs(r.diff) < 0.5){
+      v.className = "result ok"; v.textContent = "✔ الحساب مطابق";
+      box.className = "sb ok"; sbd.textContent = "مطابق ✔";
+    } else if(r.diff > 0){
+      v.className = "result bad"; v.textContent = "زيادة في الدرج: " + fmt(r.diff) + " جنيه";
+      box.className = "sb bad"; sbd.textContent = "زيادة " + fmt(r.diff);
+    } else {
+      v.className = "result bad"; v.textContent = "نقص في الدرج: " + fmt(-r.diff) + " جنيه";
+      box.className = "sb bad"; sbd.textContent = "نقص " + fmt(-r.diff);
+    }
+
+    var w = [];
+    if(r.net < 0) w.push("صافي الخبز المباع سالب (" + fmt(r.net) + "). راجع الإنتاج وعدد الأكياس والخبز المنصرف.");
+    if(r.expected < 0) w.push("المبلغ المتوقع سالب. راجع الديون والمنصرف.");
+    $("warnings").innerHTML = w.map(function(t){return '<div class="warn">⚠ '+esc(t)+'</div>'}).join("");
+
+    var dn = $("dateNote"), cur = $("date").value, msgs = [];
+    if(cur && cur !== todayStr() && hasData()) msgs.push("التاريخ المحدد: " + dateLabel(cur, true) + " (ليس اليوم).");
+    if(cur && records.some(function(x){return x.date === cur})) msgs.push("⚠ يوجد حساب محفوظ بهذا التاريخ، وسيتم استبداله عند الحفظ.");
+    dn.hidden = msgs.length === 0;
+    dn.textContent = msgs.join(" ");
+  }
+
+  function update(){ render(); store(KEY_DRAFT, collect(), true); }
+
+  /* ---------- جمع البيانات وتعبئتها ---------- */
+  function collect(){
+    var data = {};
+    INPUTS.forEach(function(k){ data[k] = num(k); });
+    return {occasions:readOcc().filter(function(o){return o.bags||o.price||o.name}), date:$("date").value, notes:$("notes").value.trim(), data:data, actualEntered:$("actual").value!=="", settings:{retailQty:settings.retailQty,retailPrice:settings.retailPrice,bagQty:settings.bagQty,bagPrice:settings.bagPrice,doughCost:settings.doughCost}};
+  }
+
+  function fill(rec){
+    $("date").value = rec.date || todayStr();
+    var data = rec.data || {};
+    INPUTS.forEach(function(k){ var v = data[k]; $(k).value = v ? v : ""; });
+    if(rec.actualEntered) $("actual").value = data.actual;
+    $("notes").value = rec.notes || "";
+    $("occList").innerHTML = "";
+    (rec.occasions || []).forEach(addOccRow);
+    render();
+  }
+
+  /* ---------- السجل ---------- */
+  function tile(t, v, s){ return '<div class="tile"><div class="t">'+t+'</div><div class="v">'+v+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+
+  function renderHistory(){
+    var sel = $("monthSel"), cur = sel.value || "all";
+    var months = Array.from(new Set(records.map(function(r){return r.date.slice(0,7)}))).sort().reverse();
+    sel.innerHTML = '<option value="all">كل الأيام</option>' + months.map(function(m){return '<option value="'+esc(m)+'">'+esc(m)+'</option>'}).join("");
+    sel.value = months.indexOf(cur) >= 0 ? cur : "all";
+
+    var list = records.filter(function(r){ return sel.value==="all" || r.date.slice(0,7)===sel.value; })
+                      .sort(function(a,b){return a.date<b.date?1:-1});
+    $("histEmpty").hidden = list.length > 0;
+    $("monthDash").hidden = list.length === 0;
+
+    var sRetail=0, sWhole=0, sOcc=0, sTotal=0, sColl=0, sDiff=0, nDiff=0, sCost=0, sProfit=0, sRevC=0, nCost=0;
+    list.forEach(function(rec){
+      var r = histCalc(rec);
+      sRetail += r.sales; sWhole += r.wholesaleMoney; sOcc += r.occMoney; sTotal += r.total; sColl += r.collected;
+      if(rec.actualEntered){ sDiff += r.diff; if(Math.abs(r.diff) >= 0.5) nDiff++; }
+      if(r.hasCost){ sCost += r.cost; sProfit += r.profit; sRevC += r.total; nCost++; }
+    });
+    $("monthDash").innerHTML =
+      tile("عدد الأيام", list.length) +
+      tile("البيع المفرد", fmt(sRetail)) +
+      tile("التوزيع (الجملة)", fmt(sWhole)) +
+      tile("المناسبات", fmt(sOcc)) +
+      '<div class="tile total"><div class="t">إجمالي المبيعات</div><div class="v">'+fmt(sTotal)+'</div><div class="s">المتحصل: '+fmt(sColl)+'</div></div>' +
+      tile("صافي فروقات الدرج", '<span class="'+(Math.abs(sDiff)<0.5?'pos':'neg')+'">'+(Math.abs(sDiff)<0.5?'0':fmtSigned(sDiff))+'</span>', nDiff + " يوم فيها فرق") +
+      (nCost ? tile("الربح (أيام فيها عجائن: " + nCost + ")", '<span class="'+(sProfit>=0?'pos':'neg')+'">'+fmtSigned(sProfit)+'</span>', "النسبة " + (sRevC>0 ? (sProfit/sRevC*100).toFixed(1) : "0") + "% · التكلفة " + fmt(sCost)) : "");
+
+    $("histList").innerHTML = list.map(function(rec){
+      var r = histCalc(rec), d = rec.data;
+      var chip;
+      if(!rec.actualEntered) chip = '<span class="chip none">لم يُدخل الفعلي</span>';
+      else if(Math.abs(r.diff) < 0.5) chip = '<span class="chip ok">مطابق ✔</span>';
+      else chip = '<span class="chip bad">'+(r.diff>0?'زيادة ':'نقص ')+fmt(Math.abs(r.diff))+'</span>';
+      return '<div class="day">'+
+        '<div class="day-top"><a href="#" class="day-date" data-open="'+esc(rec.date)+'">'+esc(dateLabel(rec.date))+'</a>'+chip+'</div>'+
+        '<div class="stats">'+
+          '<div><span>الإنتاج</span><b>'+fmt(d.production||0)+'</b></div>'+
+          '<div><span>المباع مفرد</span><b>'+fmt(r.net)+'</b></div>'+
+          '<div><span>أكياس الجملة</span><b>'+fmt(d.bags||0)+'</b></div>'+
+          '<div><span>أكياس المناسبات</span><b>'+fmt(r.occBags)+'</b></div>'+
+          '<div><span>المتوقع في الدرج</span><b>'+fmt(r.expected)+'</b></div>'+
+          '<div><span>الفعلي</span><b>'+(rec.actualEntered?fmt(r.actual):'—')+'</b></div>'+
+          '<div><span>إجمالي المبيعات</span><b>'+fmt(r.total)+'</b></div>'+
+          '<div><span>المتحصل</span><b>'+fmt(r.collected)+'</b></div>'+
+          (r.hasCost ? '<div><span>التكلفة ('+fmt(r.doughs)+' عجنة)</span><b>'+fmt(r.cost)+'</b></div><div><span>الربح</span><b class="'+(r.profit>=0?'pos':'neg')+'">'+fmtSigned(r.profit)+' ('+r.margin.toFixed(1)+'%)</b></div>' : '')+
+        '</div>'+
+        (rec.notes ? '<div class="day-notes">📝 '+esc(rec.notes)+'</div>' : '')+
+        '<div class="btns no-print"><button type="button" class="sec" data-open="'+esc(rec.date)+'">فتح / تعديل</button><button type="button" class="del" data-del="'+esc(rec.date)+'">حذف</button></div>'+
+      '</div>';
+    }).join("");
+  }
+
+  /* ---------- التبويبات ---------- */
+  function showTab(name){
+    ["day","hist","set"].forEach(function(t){ $("tab-"+t).hidden = (t !== name); });
+    document.querySelectorAll(".tabs button").forEach(function(b){ b.classList.toggle("on", b.dataset.tab === name); });
+    $("statusbar").hidden = (name !== "day");
+    if(name === "hist") renderHistory();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- حفظ / جديد ---------- */
+  function save(){
+    var rec = collect();
+    if(!rec.date){ toast("اختر التاريخ أولًا.", true); return; }
+    var idx = records.findIndex(function(x){return x.date===rec.date});
+    function commit(){
+      if(idx >= 0) records[idx] = rec; else records.push(rec);
+      if(store(KEY_REC, records)){
+        renderHistory();
+        clearForm();
+        toast("✔ تم حفظ حساب يوم " + dateLabel(rec.date) + " (المحفوظ: " + records.length + " يوم)");
+      }
+    }
+    if(idx >= 0) ask("يوجد حساب محفوظ بهذا التاريخ. هل تريد استبداله؟", commit, "استبدال");
+    else commit();
+  }
+
+  function clearForm(){
+    INPUTS.forEach(function(k){ $(k).value = ""; });
+    $("notes").value = "";
+    $("occList").innerHTML = "";
+    $("date").value = suggestDate();
+    update();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- تصدير واستيراد ---------- */
+  function download(name, text, type){
+    var blob = new Blob([text], {type:type});
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  function csv(){
+    var rows = [["التاريخ","الإنتاج","خبز الجملة","خبز المناسبات","خبز العمال","خبز صاحب المخبز","المتبقي","المباع مفرد","قيمة المفرد","الديون","أجور العمال","مسحوبات المالك","تحويلات بنكية","المتوقع","الفعلي","الفرق","أكياس الجملة","قيمة الجملة","أكياس المناسبات","قيمة المناسبات","إجمالي المبيعات","إجمالي المتحصل","عدد العجائن","التكلفة","الربح","نسبة الربح %","ديون قديمة محصلة","ملاحظات"]];
+    records.slice().sort(function(a,b){return a.date<b.date?-1:1}).forEach(function(rec){
+      var r = histCalc(rec), d = rec.data;
+      rows.push([rec.date,d.production,r.wholesaleBread,r.occBread,d.workerBread,d.ownerBread,d.leftover,r.net,Math.round(r.sales),d.debt,d.workerCash,d.ownerCash,d.bankTransfer||0,Math.round(r.expected),rec.actualEntered?d.actual:"",rec.actualEntered?Math.round(r.diff):"",d.bags,r.wholesaleMoney,r.occBags,r.occMoney,Math.round(r.total),Math.round(r.collected),d.doughs||0,r.hasCost?Math.round(r.cost):"",r.hasCost?Math.round(r.profit):"",r.hasCost?Math.round(r.margin*10)/10:"",d.oldDebt,rec.notes||""]);
+    });
+    var text = rows.map(function(row){return row.map(function(c){return '"'+String(c==null?"":c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
+    download("bakery-records.csv", "﻿"+text, "text/csv;charset=utf-8");
+  }
+
+  function exportBackup(){
+    download("bakery-backup-"+todayStr()+".json", JSON.stringify({version:1, exportedAt:new Date().toISOString(), settings:settings, records:records}, null, 1), "application/json");
+  }
+
+  function normalizeRecord(r){
+    if(!r || typeof r.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(r.date) || !r.data || typeof r.data !== "object") return null;
+    var st = Object.assign({}, DEFAULTS, r.settings || {});
+    ["retailQty","retailPrice","bagQty","bagPrice"].forEach(function(k){ st[k] = Number(st[k]); if(!(st[k] > 0)) st[k] = DEFAULTS[k]; });
+    var data = {};
+    INPUTS.forEach(function(k){ data[k] = Number(r.data[k]) || 0; });
+    var occ = (Array.isArray(r.occasions) ? r.occasions : []).map(function(o){
+      return {name:String((o && o.name) || ""), bags:Number(o && o.bags) || 0, price:Number(o && o.price) || 0};
+    });
+    return {date:r.date, notes:String(r.notes || ""), data:data, occasions:occ, actualEntered:!!r.actualEntered, settings:{retailQty:st.retailQty,retailPrice:st.retailPrice,bagQty:st.bagQty,bagPrice:st.bagPrice,doughCost:Math.max(0, Number(st.doughCost)||0)}};
+  }
+
+  function importBackup(file){
+    var rd = new FileReader();
+    rd.onload = function(){
+      try{
+        var obj = JSON.parse(rd.result);
+        var recs = Array.isArray(obj) ? obj : obj.records;
+        if(!Array.isArray(recs)) throw new Error("bad");
+        recs = recs.map(normalizeRecord).filter(Boolean);
+        if(!recs.length) throw new Error("empty");
+        ask("سيتم دمج " + recs.length + " سجل مع السجلات الحالية (الأيام المتطابقة تُستبدل). متابعة؟", function(){
+          recs.forEach(function(rec){
+            var i = records.findIndex(function(x){return x.date===rec.date});
+            if(i >= 0) records[i] = rec; else records.push(rec);
+          });
+          if(store(KEY_REC, records)){ renderHistory(); render(); toast("✔ تم استيراد " + recs.length + " سجل"); }
+        }, "استيراد");
+      }catch(e){ toast("الملف غير صالح.", true); }
+    };
+    rd.readAsText(file);
+  }
+
+  /* ---------- الأحداث ---------- */
+  ["retailQty","retailPrice","bagQty","bagPrice","doughCost"].forEach(function(k){
+    var el = $("s_"+k); el.value = settings[k] || "";
+    el.addEventListener("input", function(){
+      var v = parseFloat(el.value);
+      if(el.value === "" && k === "doughCost") v = 0;
+      if(!isNaN(v) && (v > 0 || (k === "doughCost" && v === 0))){ settings[k] = v; store(KEY_SET, settings); update(); }
+    });
+  });
+
+  INPUTS.concat(["date"]).forEach(function(k){ $(k).addEventListener("input", update); });
+  $("notes").addEventListener("input", update);
+  $("addOcc").addEventListener("click", function(){ addOccRow(); update(); });
+  $("saveBtn").addEventListener("click", save);
+  $("saveBtn2").addEventListener("click", save);
+  $("clearBtn").addEventListener("click", function(){
+    if(hasData()) ask("سيتم مسح البيانات غير المحفوظة. هل تريد المتابعة؟", clearForm, "مسح");
+    else clearForm();
+  });
+  $("printBtn").addEventListener("click", function(){
+    var old = document.title;
+    document.title = "حساب المخبز " + $("date").value;
+    document.querySelectorAll("details").forEach(function(d){ d.open = true; });
+    window.print();
+    document.title = old;
+  });
+  $("csvBtn").addEventListener("click", csv);
+  $("exportBtn").addEventListener("click", exportBackup);
+  $("importBtn").addEventListener("click", function(){ $("importFile").click(); });
+  $("importFile").addEventListener("change", function(){ var f = this.files[0]; if(f) importBackup(f); this.value = ""; });
+  $("monthSel").addEventListener("change", renderHistory);
+  document.querySelectorAll(".tabs button").forEach(function(b){ b.addEventListener("click", function(){ showTab(b.dataset.tab); }); });
+
+  $("histList").addEventListener("click", function(e){
+    var t = e.target.closest("[data-open],[data-del]");
+    if(!t) return;
+    e.preventDefault();
+    if(t.dataset.del){
+      var delDate = t.dataset.del;
+      ask("حذف حساب يوم " + dateLabel(delDate) + " نهائيًا؟", function(){
+        records = records.filter(function(x){return x.date!==delDate});
+        if(store(KEY_REC, records)){ renderHistory(); render(); toast("تم حذف الحساب"); }
+      }, "حذف");
+    } else {
+      var rec = records.find(function(x){return x.date===t.dataset.open});
+      if(rec){ fill(rec); store(KEY_DRAFT, collect(), true); showTab("day"); }
+    }
+  });
+
+  /* ---------- البدء ---------- */
+  $("todayLabel").textContent = dateLabel(todayStr(), true);
+  var draft = load(KEY_DRAFT, null);
+  var draftHasData = draft && draft.data && typeof draft.data === "object" &&
+    (INPUTS.some(function(k){ return draft.data[k]; }) || (draft.occasions && draft.occasions.length) || draft.notes);
+  if(draftHasData) fill(draft);
+  else { $("date").value = suggestDate(); render(); }
+  renderHistory();
+
+  // التأكد من أن المتصفح يحفظ البيانات فعلًا
+  var storageOK = true;
+  try{ localStorage.setItem("bakery_test","1"); storageOK = localStorage.getItem("bakery_test") === "1"; localStorage.removeItem("bakery_test"); }catch(e){ storageOK = false; }
+  if(!storageOK){
+    $("storeNote").hidden = false;
+    $("storeNote").textContent = "⚠ هذا المتصفح لا يحفظ البيانات، فلن تبقى السجلات بعد إغلاق الصفحة. افتح الصفحة مباشرة في متصفح Chrome (وليس من داخل تطبيق آخر أو في التصفح الخاص).";
+  }
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  try{ if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js"); }catch(e){}
+})();
+</script>
+</body>
+</html>
