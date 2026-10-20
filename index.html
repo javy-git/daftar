@@ -15,85 +15,131 @@
   *{box-sizing:border-box}
   [hidden]{display:none!important}
   html,body{overflow-x:hidden}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:17px;line-height:1.5}
-  header{background:var(--brand);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
-  header h1{margin:0;font-size:21px}
-  header span{font-size:14px;opacity:.95}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:16px;line-height:1.5}
 
+  /* الرأس والتبويبات والشريط الثابت */
+  header{background:var(--brand);color:#fff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+  header h1{margin:0;font-size:19px}
+  header span{font-size:13px;opacity:.95}
   .top{position:sticky;top:0;z-index:10;background:var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.1)}
   .tabs{display:flex;background:#fff;border-bottom:1px solid var(--line)}
-  .tabs button{flex:1;background:none;color:var(--muted);border-radius:0;padding:11px 6px;border-bottom:3px solid transparent;font-weight:600}
+  .tabs button{flex:1;background:none;color:var(--muted);border-radius:0;padding:10px 6px;border-bottom:3px solid transparent;font-weight:600}
   .tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
-  .statusbar{display:flex;align-items:stretch;gap:8px;padding:8px 10px;max-width:1000px;margin:0 auto}
-  .sb{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px 8px;min-width:0}
+  .statusbar{display:flex;align-items:stretch;gap:8px;padding:7px 10px;max-width:1000px;margin:0 auto}
+  .sb{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:2px 8px;min-width:0}
   .sb .k{display:block;font-size:12px;color:var(--muted)}
   .sb b{display:block;font-size:17px;direction:ltr;text-align:right;white-space:nowrap}
   .sb.ok{background:var(--okbg);border-color:var(--ok)} .sb.ok b{color:var(--ok)}
   .sb.bad{background:var(--badbg);border-color:var(--bad)} .sb.bad b{color:var(--bad)}
   .statusbar button{padding:6px 12px;align-self:center}
 
-  main{max-width:1000px;margin:0 auto;padding:12px}
-  .tab{display:grid;gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-  .card-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-  .card-h h2{margin:0;font-size:18px;color:var(--brand)}
-  .num{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
-  .badge{margin-inline-start:auto;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:600}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-  .grid>*{min-width:0}
-  label{display:block;font-size:15px;color:var(--muted);margin-bottom:4px}
-  input,textarea,select{width:100%;font:inherit;min-height:46px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fffdf9;color:var(--ink)}
-  input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);border-color:var(--brand)}
-  .hint{font-size:13px;color:var(--muted);margin-top:3px}
-  .note{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:8px;font-size:15px}
+  main{max-width:1000px;margin:0 auto;padding:10px}
+  .tab{display:grid;gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .card-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .card-h h2{margin:0;font-size:15px;color:var(--brand)}
+  .badge{background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 10px;font-size:13px;font-weight:600}
 
-  button{font:inherit;padding:10px 18px;border-radius:8px;border:0;cursor:pointer;background:var(--brand);color:#fff}
+  /* الخانات: عمودان على الهاتف */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .g2>*{min-width:0}
+  .g2 .full{grid-column:1/-1}
+  label{display:block;font-size:13.5px;color:var(--muted);margin-bottom:3px;line-height:1.3}
+  input,textarea,select{width:100%;font:inherit;font-size:17px;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fffdf9;color:var(--ink)}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .hint:empty{display:none}
+  .note{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:8px;font-size:15px}
+  .datebar{display:flex;align-items:center;gap:10px}
+  .datebar label{margin:0;white-space:nowrap;font-size:14px}
+  .datebar input{max-width:210px}
+
+  button{font:inherit;padding:10px 16px;border-radius:8px;border:0;cursor:pointer;background:var(--brand);color:#fff}
   button.sec{background:#eadfce;color:var(--ink)}
   button.del{background:var(--badbg);color:var(--bad);padding:6px 12px;font-size:14px}
-  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .btns .wide{flex:1 1 100%;padding:13px;font-size:18px;font-weight:700}
+  .btns .half{flex:1 1 40%}
 
-  .occ{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end;padding:10px;border:1px dashed var(--line);border-radius:10px;margin-top:10px}
+  /* الأقسام المطوية */
+  details.fold{background:var(--card);border:1px solid var(--line);border-radius:12px}
+  details.fold>summary{list-style:none;padding:11px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;color:var(--brand);font-size:15px}
+  details.fold>summary::-webkit-details-marker{display:none}
+  details.fold>summary .badge{margin-inline-start:auto}
+  details.fold>summary::after{content:"+";font-size:20px;line-height:1;color:var(--muted);font-weight:400;width:18px;text-align:center}
+  details.fold:not(:has(.badge))>summary::after{margin-inline-start:auto}
+  details.fold[open]>summary::after{content:"−"}
+  details.fold .fbody{padding:0 12px 12px}
+
+  .occ{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;align-items:end;padding:10px;border:1px dashed var(--line);border-radius:10px;margin-top:8px}
   .occ>*{min-width:0}
-  .o_tot{padding-bottom:12px}
+  .occ .o_name_w{grid-column:1/-1}
+  .o_tot{padding-bottom:10px;font-size:15px}
 
-  table{width:100%;border-collapse:collapse}
-  td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
-  td.n{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;white-space:nowrap}
-  tr.total td{font-weight:700;background:#faf5ec}
-  details summary{cursor:pointer;color:var(--brand);font-weight:600;padding:6px 0}
-
-  .result{font-size:22px;font-weight:700;padding:14px;border-radius:10px;text-align:center}
+  /* النتيجة */
+  .hero{background:var(--soft);border:1px solid #f0d9b5;border-radius:14px;padding:10px 12px;text-align:center;color:var(--brand-d)}
+  .hero .k{font-size:14px}
+  .hero b{display:block;font-size:34px;line-height:1.25;direction:ltr;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .hero.neg{background:var(--badbg);border-color:#f0c2be;color:var(--bad)} .hero.neg b{color:var(--bad)}
+  .stats2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fffdf9;min-width:0}
+  .stat .k{font-size:13px;color:var(--muted)}
+  .stat b{display:block;font-size:21px;direction:ltr;text-align:right;line-height:1.3}
+  .stat .s{font-size:12.5px;color:var(--muted)}
+  .stat.okc{background:var(--okbg);border-color:#bfe3cb} .stat.okc b,.stat.okc .s{color:var(--ok)}
+  .stat.badc{background:var(--badbg);border-color:#f0c2be} .stat.badc b,.stat.badc .s{color:var(--bad)}
+  .result{font-size:20px;font-weight:700;padding:12px;border-radius:10px;text-align:center;margin-top:10px}
   .result.ok{background:var(--okbg);color:var(--ok)}
   .result.bad{background:var(--badbg);color:var(--bad)}
-  .result.none{background:#f1ece3;color:var(--muted);font-size:17px;font-weight:400}
+  .result.none{background:#f1ece3;color:var(--muted);font-size:16px;font-weight:400}
   .warn{background:var(--warnbg);color:var(--warn);padding:8px 12px;border-radius:8px;margin-top:10px;font-size:15px}
-
-  .dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 10px}
-  .tile{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fffdf9;min-width:0}
-  .tile .t{color:var(--muted);font-size:14px}
-  .tile .v{font-size:20px;font-weight:700;direction:ltr;text-align:right}
-  .tile .s{font-size:13px;color:var(--muted)}
-  .tile.total{background:var(--soft);border-color:var(--brand)}
   .pos{color:var(--ok)} .neg{color:var(--bad)}
-  h3.sub{font-size:16px;color:var(--brand);margin:20px 0 8px}
-  #costContent .result{font-size:19px}
 
-  .day{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fffdf9;margin-top:10px}
-  .day-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-  .day-date{font-weight:700;color:var(--ink);text-decoration:none}
-  .chip{padding:2px 12px;border-radius:999px;font-size:14px;font-weight:700}
+  table{width:100%;border-collapse:collapse}
+  td,th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-size:15px}
+  td.n{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.total td{font-weight:700;background:#faf5ec}
+  tr.gh td{background:#f3e9d8;font-weight:700;color:var(--brand-d);font-size:14px}
+  .moredet{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#fffdf9}
+  .moredet>summary{padding:10px 12px;cursor:pointer;color:var(--brand);font-weight:700;font-size:15px}
+  .moredet table{margin:0}
+
+  /* الملخص والسجل */
+  .dash{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tile{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fffdf9;min-width:0}
+  .tile .t{color:var(--muted);font-size:13px}
+  .tile .v{font-size:19px;font-weight:700;direction:ltr;text-align:right}
+  .tile .s{font-size:12.5px;color:var(--muted)}
+  .tile.total{background:var(--soft);border-color:var(--brand)}
+  .day{border:1px solid var(--line);border-radius:12px;background:#fffdf9;margin-top:8px}
+  .day>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 12px}
+  .day>summary::-webkit-details-marker{display:none}
+  .day>summary::after{content:"+";margin-inline-start:auto;color:var(--muted);font-size:20px;width:18px;text-align:center}
+  .day[open]>summary::after{content:"−"}
+  .dd{font-weight:700;flex:1;min-width:0}
+  .dv,.dp{display:block;font-weight:700;direction:ltr;text-align:right;font-size:16px;line-height:1.3}
+  .dv small,.dp small{display:block;font-size:11px;font-weight:400;color:var(--muted);direction:rtl;text-align:right}
+  .chip{padding:1px 10px;border-radius:999px;font-size:13px;font-weight:700}
   .chip.ok{background:var(--okbg);color:var(--ok)} .chip.bad{background:var(--badbg);color:var(--bad)} .chip.none{background:#f1ece3;color:var(--muted)}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:6px 12px;margin-top:8px;font-size:15px}
-  .stats span{display:block;color:var(--muted);font-size:13px}
+  .dbody{padding:0 12px 12px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:15px}
+  .stats span{display:block;color:var(--muted);font-size:12.5px}
   .stats b{display:block;direction:ltr;text-align:right}
-  .day-notes{margin-top:6px;font-size:14px;color:var(--muted)}
-  .day .btns{margin-top:10px}
+  .day-notes{margin-top:8px;font-size:14px;color:var(--muted)}
+  .chk{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--ink);cursor:pointer}
+  .chk input{width:24px;min-height:24px;height:24px;flex:none}
 
-  @media(max-width:700px){
-    main{padding:8px}
-    .card{padding:12px}
-    .btns button{flex:1 1 45%}
-    .day .btns button{flex:1 1 40%}
+  body:not(.cmp-on) .cmp, body:not(.cmp-on) #sb_actbox, body:not(.cmp-on) #sb_diffbox, body:not(.cmp-on) #verdict{display:none!important}
+  body.cmp-on .nocmp, body.cmp-on #sb_profitbox{display:none!important}
+
+  @media(min-width:720px){
+    .g2{grid-template-columns:repeat(4,1fr)}
+    .g2 .full{grid-column:1/-1}
+    .dash{grid-template-columns:repeat(4,1fr)}
+    .occ{grid-template-columns:2fr 1fr 1fr 1fr auto}
+    .occ .o_name_w{grid-column:auto}
+    .stats{grid-template-columns:repeat(4,1fr)}
+    .btns .wide{flex:1 1 auto}
   }
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;max-width:92vw;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.25)}
   .toast.err{background:var(--bad)}
@@ -121,8 +167,9 @@
     <button type="button" data-tab="set">الإعدادات</button>
   </nav>
   <div class="statusbar" id="statusbar">
-    <div class="sb"><span class="k">المتوقع في الدرج</span><b id="sb_exp">0</b></div>
-    <div class="sb"><span class="k">الفعلي</span><b id="sb_act">—</b></div>
+    <div class="sb"><span class="k">حاصل البيع اليومي</span><b id="sb_exp">0</b></div>
+    <div class="sb" id="sb_profitbox" hidden><span class="k">الربح</span><b id="sb_profit">0</b></div>
+    <div class="sb" id="sb_actbox"><span class="k">الفعلي</span><b id="sb_act">—</b></div>
     <div class="sb" id="sb_diffbox"><span class="k">الفرق</span><b id="sb_diff">—</b></div>
     <button type="button" id="saveBtn">💾 حفظ</button>
   </div>
@@ -130,100 +177,116 @@
 
 <main>
 
-<div class="note" id="storeNote" hidden style="margin-bottom:12px"></div>
+<div class="note" id="storeNote" hidden style="margin-bottom:10px"></div>
 
 <!-- ===== حساب اليوم ===== -->
 <div id="tab-day" class="tab">
 
   <div class="note" id="dateNote" hidden></div>
 
+  <div class="datebar"><label for="date">التاريخ</label><input type="date" id="date"></div>
+
   <section class="card">
-    <div class="card-h"><span class="num">1</span><h2>الخبز</h2><span class="badge" id="b_net">صافي المفرد: 0 خبزة</span></div>
-    <div class="grid">
-      <div><label>التاريخ</label><input type="date" id="date"></div>
-      <div><label>عدد العجائن</label><input type="number" id="doughs" min="0" inputmode="numeric"><div class="hint" id="doughHint"></div></div>
-      <div><label>عدد الخبز المنتج</label><input type="number" id="production" min="0" inputmode="numeric"><div class="hint">لا تُدخل التالف، فهو لا يُحسب أصلًا</div></div>
-      <div><label>عدد أكياس الجملة (التوزيع)</label><input type="number" id="bags" min="0" inputmode="numeric"></div>
-      <div><label>خبز العمال</label><input type="number" id="workerBread" min="0" inputmode="numeric"></div>
-      <div><label>خبز صاحب المخبز</label><input type="number" id="ownerBread" min="0" inputmode="numeric"></div>
-      <div><label>خبز متبقٍ (لم يُبع)</label><input type="number" id="leftover" min="0" inputmode="numeric"></div>
+    <div class="card-h"><h2>الإنتاج</h2></div>
+    <div class="g2">
+      <div><label for="doughs">عدد العجائن</label><input type="number" id="doughs" min="0" inputmode="numeric"></div>
+      <div><label for="production">الخبز المنتج (دون التالف)</label><input type="number" id="production" min="0" inputmode="numeric"></div>
+    </div>
+    <div class="hint" id="doughHint"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><h2>الخبز الموزَّع والمنصرف</h2><span class="badge" id="b_net">صافي المفرد: 0</span></div>
+    <div class="g2">
+      <div><label for="bags">أكياس الجملة (التوزيع)</label><input type="number" id="bags" min="0" inputmode="numeric"></div>
+      <div><label for="leftover">خبز متبقٍ (لم يُبع)</label><input type="number" id="leftover" min="0" inputmode="numeric"></div>
+      <div><label for="workerBread">خبز العمال</label><input type="number" id="workerBread" min="0" inputmode="numeric"></div>
+      <div><label for="ownerBread">خبز صاحب المخبز</label><input type="number" id="ownerBread" min="0" inputmode="numeric"></div>
     </div>
   </section>
 
   <section class="card">
-    <div class="card-h"><span class="num">2</span><h2>المناسبات (اختياري)</h2><span class="badge" id="b_occ">المبلغ: 0</span></div>
-    <div class="hint" style="margin-top:0">زبون أخذ أكياسًا بسعر خاص. تُطرح أكياسه من الإنتاج، ومبلغها منفصل ولا يدخل الدرج.</div>
-    <div id="occList"></div>
-    <div class="btns"><button type="button" class="sec" id="addOcc">+ إضافة زبون مناسبة</button></div>
-  </section>
-
-  <section class="card">
-    <div class="card-h"><span class="num">3</span><h2>النقد والديون</h2></div>
-    <div class="grid">
-      <div><label>مبلغ الدين (بيع المفرد بالآجل)</label><input type="number" id="debt" min="0" inputmode="decimal"></div>
-      <div><label>نقد أُعطي للعمال (أجور)</label><input type="number" id="workerCash" min="0" inputmode="decimal"></div>
-      <div><label>مسحوبات صاحب المخبز (نقد)</label><input type="number" id="ownerCash" min="0" inputmode="decimal"></div>
-      <div><label>مجموع التحويلات البنكية (زبائن المفرد)</label><input type="number" id="bankTransfer" min="0" inputmode="decimal"><div class="hint">يُطرح من المتوقع لأنه لم يدخل الدرج. لا تُدخل فيه تحويلات الجملة</div></div>
-      <div><label style="color:var(--ink);font-weight:700">المبلغ الفعلي الموجود في الدرج</label><input type="number" id="actual" min="0" inputmode="decimal"><div class="hint">لا تُدخل فيه ديونًا قديمة محصّلة</div></div>
-      <div><label>ديون قديمة تم تحصيلها (للتسجيل فقط)</label><input type="number" id="oldDebt" min="0" inputmode="decimal"><div class="hint">لا تدخل في الحساب</div></div>
+    <div class="card-h"><h2>النقد</h2></div>
+    <div class="g2">
+      <div><label for="debt">ديون المفرد (آجل)</label><input type="number" id="debt" min="0" inputmode="decimal"></div>
+      <div><label for="bankTransfer">تحويلات بنكية (المفرد)</label><input type="number" id="bankTransfer" min="0" inputmode="decimal"></div>
+      <div><label for="workerCash">أجور العمال (نقد)</label><input type="number" id="workerCash" min="0" inputmode="decimal"></div>
+      <div><label for="ownerCash">مسحوبات صاحب المخبز</label><input type="number" id="ownerCash" min="0" inputmode="decimal"></div>
+      <div class="full cmp"><label for="actual" style="color:var(--ink);font-weight:700">المبلغ الفعلي الموجود في الدرج</label><input type="number" id="actual" min="0" inputmode="decimal"></div>
     </div>
-    <div style="margin-top:12px"><label>ملاحظات (سبب الفرق مثلًا)</label><textarea id="notes" rows="2"></textarea></div>
   </section>
 
+  <details class="fold" id="foldOcc">
+    <summary>المناسبات <span class="badge" id="b_occ">لا توجد</span></summary>
+    <div class="fbody">
+      <div class="hint" style="margin-top:0">زبون أخذ أكياسًا بسعر خاص. تُطرح أكياسه من الإنتاج ومبلغها منفصل عن الدرج.</div>
+      <div id="occList"></div>
+      <div class="btns"><button type="button" class="sec" id="addOcc">+ إضافة زبون مناسبة</button></div>
+    </div>
+  </details>
+
+  <details class="fold" id="foldExtra">
+    <summary>إضافي: ديون قديمة وملاحظات</summary>
+    <div class="fbody">
+      <div class="g2">
+        <div class="full"><label for="oldDebt">ديون قديمة تم تحصيلها (للتسجيل فقط، لا تدخل الحساب)</label><input type="number" id="oldDebt" min="0" inputmode="decimal"></div>
+        <div class="full"><label for="notes">ملاحظات</label><textarea id="notes" rows="2"></textarea></div>
+      </div>
+    </div>
+  </details>
+
   <section class="card">
-    <div class="card-h"><span class="num">4</span><h2>النتيجة</h2></div>
+    <div class="card-h"><h2>النتيجة</h2></div>
+
+    <div class="hero nocmp" id="netBox"><div class="k">حاصل البيع اليومي</div><b id="netVal">0</b></div>
     <div class="result none" id="verdict">أدخل البيانات لتظهر النتيجة</div>
     <div id="warnings"></div>
 
-    <div class="dash">
-      <div class="tile"><div class="t">البيع المفرد</div><div class="v" id="d_retail">0</div><div class="s" id="d_retailS"></div></div>
-      <div class="tile"><div class="t">التوزيع (الجملة)</div><div class="v" id="d_whole">0</div><div class="s" id="d_wholeS"></div></div>
-      <div class="tile" id="d_occTile"><div class="t">المناسبات</div><div class="v" id="d_occ">0</div><div class="s" id="d_occS"></div></div>
-      <div class="tile total"><div class="t">إجمالي المبيعات</div><div class="v" id="d_total">0</div></div>
+    <div class="stats2">
+      <div class="stat"><div class="k">إجمالي المبيعات</div><b id="res_total">0</b><div class="s" id="res_totalS"></div></div>
+      <div class="stat" id="res_profitCell"><div class="k">الربح</div><b id="res_profit">—</b><div class="s" id="res_profitS"></div></div>
     </div>
-    <table>
-      <tr><td>إجمالي المبيعات</td><td class="n" id="d_total2">0</td></tr>
-      <tr><td>− ديون المفرد (لم تُحصَّل)</td><td class="n" id="d_debt">0</td></tr>
-      <tr class="total"><td>إجمالي المبلغ المتحصل</td><td class="n" id="d_collected">0</td></tr>
-    </table>
-    <div class="hint">المتحصل يشمل ما في الدرج وتحويلات المفرد ومبالغ الجملة والمناسبات. مبالغ الجملة والمناسبات تُعتبر محصّلة بالكامل ولا تدخل الدرج.</div>
 
-    <h3 class="sub">التكلفة والربح</h3>
-    <div id="costContent">
-      <div class="result none" id="costVerdict"></div>
-      <div class="dash">
-        <div class="tile"><div class="t">تكلفة العجائن</div><div class="v" id="c_cost">0</div><div class="s" id="c_costS"></div></div>
-        <div class="tile"><div class="t">الإيراد</div><div class="v" id="c_rev">0</div></div>
-        <div class="tile total"><div class="t">الربح</div><div class="v" id="c_profit">0</div></div>
-        <div class="tile total"><div class="t">نسبة الربح من الإيراد</div><div class="v" id="c_margin">0%</div></div>
-      </div>
-    </div>
-    <div class="hint" id="costHint"></div>
-
-    <details style="margin-top:10px">
-      <summary>تفاصيل حساب الدرج</summary>
+    <details class="moredet" id="moreDet">
+      <summary>عرض التفاصيل</summary>
       <table>
+        <tr class="gh"><td colspan="2">الخبز</td></tr>
         <tr><td>إجمالي الإنتاج</td><td class="n" id="r_prod">0</td></tr>
-        <tr><td>− الخبز الموزع جملة (<span id="r_bagsTxt">0</span> كيس)</td><td class="n" id="r_wholesaleBread">0</td></tr>
-        <tr><td>− الخبز الموزع للمناسبات (<span id="r_occBags">0</span> كيس)</td><td class="n" id="r_occBread">0</td></tr>
+        <tr><td>− الجملة (<span id="r_bagsTxt">0</span> كيس)</td><td class="n" id="r_wholesaleBread">0</td></tr>
+        <tr class="occrow"><td>− المناسبات (<span id="r_occBags">0</span> كيس)</td><td class="n" id="r_occBread">0</td></tr>
         <tr><td>− خبز العمال</td><td class="n" id="r_wb">0</td></tr>
         <tr><td>− خبز صاحب المخبز</td><td class="n" id="r_ob">0</td></tr>
-        <tr><td>− الخبز المتبقي</td><td class="n" id="r_left">0</td></tr>
+        <tr><td>− المتبقي</td><td class="n" id="r_left">0</td></tr>
         <tr class="total"><td>صافي الخبز المباع بالمفرد</td><td class="n" id="r_net">0</td></tr>
+
+        <tr class="gh"><td colspan="2">حاصل البيع اليومي</td></tr>
         <tr><td>قيمة بيع المفرد</td><td class="n" id="r_sales">0</td></tr>
         <tr><td>− الديون</td><td class="n" id="r_debt">0</td></tr>
         <tr><td>− أجور العمال</td><td class="n" id="r_wc">0</td></tr>
         <tr><td>− مسحوبات صاحب المخبز</td><td class="n" id="r_oc">0</td></tr>
         <tr><td>− التحويلات البنكية</td><td class="n" id="r_bt">0</td></tr>
-        <tr class="total"><td>المبلغ المتوقع في الدرج</td><td class="n" id="r_expected">0</td></tr>
-        <tr><td>المبلغ الفعلي في الدرج</td><td class="n" id="r_actual">0</td></tr>
+        <tr class="total"><td>حاصل البيع اليومي</td><td class="n" id="r_expected">0</td></tr>
+        <tr class="cmp"><td>المبلغ الفعلي في الدرج</td><td class="n" id="r_actual">0</td></tr>
+
+        <tr class="gh"><td colspan="2">المبيعات والربح</td></tr>
+        <tr><td>البيع المفرد</td><td class="n" id="q_retail">0</td></tr>
+        <tr><td>التوزيع (الجملة): <span id="q_wholeS"></span></td><td class="n" id="q_whole">0</td></tr>
+        <tr class="occrow"><td>المناسبات: <span id="q_occS"></span></td><td class="n" id="q_occ">0</td></tr>
+        <tr class="total"><td>إجمالي المبيعات</td><td class="n" id="q_total">0</td></tr>
+        <tr><td>− ديون المفرد (لم تُحصَّل)</td><td class="n" id="q_debt">0</td></tr>
+        <tr class="total"><td>إجمالي المبلغ المتحصل</td><td class="n" id="q_coll">0</td></tr>
+        <tr class="costrow"><td>− تكلفة العجائن: <span id="q_costS"></span></td><td class="n" id="q_cost">0</td></tr>
+        <tr class="costrow total"><td>الربح</td><td class="n" id="q_profit">0</td></tr>
+        <tr class="costrow"><td>نسبة الربح من الإيراد</td><td class="n" id="q_margin">0</td></tr>
+        <tr class="costrow"><td>تكلفة الخبزة الواحدة</td><td class="n" id="q_unit">0</td></tr>
       </table>
+      <div class="hint" style="padding:8px 12px" id="costHint"></div>
     </details>
 
     <div class="btns">
-      <button type="button" id="saveBtn2">💾 حفظ هذا اليوم</button>
-      <button type="button" class="sec" id="clearBtn">يوم جديد</button>
-      <button type="button" class="sec" id="printBtn">طباعة</button>
+      <button type="button" class="wide" id="saveBtn2">💾 حفظ هذا اليوم</button>
+      <button type="button" class="sec half" id="clearBtn">يوم جديد</button>
+      <button type="button" class="sec half" id="printBtn">طباعة</button>
     </div>
   </section>
 </div>
@@ -231,12 +294,13 @@
 <!-- ===== السجل ===== -->
 <div id="tab-hist" class="tab" hidden>
   <section class="card">
-    <div class="card-h"><h2>ملخص</h2><span class="badge" style="padding:0;background:none"><select id="monthSel" style="min-height:38px;padding:4px 8px"></select></span></div>
-    <div class="dash" id="monthDash" style="margin-bottom:0"></div>
+    <div class="card-h"><h2>ملخص</h2><select id="monthSel" style="width:auto;min-height:38px;padding:4px 8px"></select></div>
+    <div class="dash" id="monthDash"></div>
+    <details class="moredet" id="monthMoreWrap"><summary>تفاصيل أكثر</summary><div class="dash" id="monthMore" style="padding:0 10px 10px"></div></details>
     <div class="hint" id="histEmpty">لا توجد سجلات محفوظة بعد.</div>
   </section>
   <section class="card">
-    <div class="card-h"><h2>الأيام</h2><button type="button" class="sec" id="csvBtn" style="margin-inline-start:auto">تصدير Excel / CSV</button></div>
+    <div class="card-h"><h2>الأيام</h2><button type="button" class="sec" id="csvBtn" style="padding:6px 12px;font-size:14px">تصدير Excel / CSV</button></div>
     <div id="histList"></div>
   </section>
 </div>
@@ -245,14 +309,24 @@
 <div id="tab-set" class="tab" hidden>
   <section class="card">
     <div class="card-h"><h2>الأسعار</h2></div>
-    <div class="grid">
-      <div><label>عدد الخبزات في البيع بالمفرد</label><input type="number" id="s_retailQty" min="1" inputmode="decimal"></div>
-      <div><label>سعرها (جنيه)</label><input type="number" id="s_retailPrice" min="0" inputmode="decimal"></div>
-      <div><label>عدد الخبز في الكيس</label><input type="number" id="s_bagQty" min="1" inputmode="decimal"></div>
-      <div><label>سعر كيس الجملة (جنيه)</label><input type="number" id="s_bagPrice" min="0" inputmode="decimal"></div>
-      <div><label>تكلفة العجنة الواحدة (جنيه)</label><input type="number" id="s_doughCost" min="0" inputmode="decimal"><div class="hint">دقيق وخميرة ووقود وأجور عمال، أي كل ما يلزم لإنتاج عجنة واحدة</div></div>
+    <div class="g2">
+      <div><label for="s_retailQty">عدد الخبزات في البيع بالمفرد</label><input type="number" id="s_retailQty" min="1" inputmode="decimal"></div>
+      <div><label for="s_retailPrice">سعرها (جنيه)</label><input type="number" id="s_retailPrice" min="0" inputmode="decimal"></div>
+      <div><label for="s_bagQty">عدد الخبز في الكيس</label><input type="number" id="s_bagQty" min="1" inputmode="decimal"></div>
+      <div><label for="s_bagPrice">سعر كيس الجملة (جنيه)</label><input type="number" id="s_bagPrice" min="0" inputmode="decimal"></div>
+      <div class="full"><label for="s_doughCost">تكلفة العجنة الواحدة (جنيه)</label><input type="number" id="s_doughCost" min="0" inputmode="decimal"><div class="hint">دقيق وخميرة ووقود وأجور عمال، أي كل ما يلزم لإنتاج عجنة واحدة</div></div>
     </div>
     <div class="hint">الحالي: <span id="priceInfo"></span>. تُحفظ تلقائيًا وتُطبَّق على الحساب الحالي. السجلات المحفوظة سابقًا تحتفظ بالأسعار التي حُسبت بها.</div>
+  </section>
+  <section class="card">
+    <div class="card-h"><h2>مقارنة الدرج</h2></div>
+    <label class="chk"><input type="checkbox" id="s_compare"> تفعيل مقارنة الدرج</label>
+    <div class="hint">عند التفعيل تظهر خانة «المبلغ الفعلي في الدرج»، ويُقارَن بحاصل البيع اليومي ويظهر التطابق أو الفرق (زيادة أو نقص). عند الإيقاف يظهر حاصل البيع اليومي فقط دون أي مقارنة.</div>
+  </section>
+  <section class="card">
+    <div class="card-h"><h2>العمل دون إنترنت</h2></div>
+    <div class="result none" id="offlineStatus" style="font-size:16px;margin-top:0">جارٍ الفحص…</div>
+    <div class="hint">إذا لم تظهر علامة ✔ فافتح التطبيق وأنت متصل بالإنترنت ثم أغلقه وافتحه مرة أخرى.</div>
   </section>
   <section class="card">
     <div class="card-h"><h2>نسخة احتياطية</h2></div>
@@ -280,7 +354,7 @@
 (function(){
   var $ = function(id){return document.getElementById(id)};
   var KEY_REC = "bakery_records_v1", KEY_SET = "bakery_settings_v1", KEY_DRAFT = "bakery_draft_v1";
-  var DEFAULTS = {retailQty:3, retailPrice:1000, bagQty:50, bagPrice:15000, doughCost:0};
+  var DEFAULTS = {retailQty:3, retailPrice:1000, bagQty:50, bagPrice:15000, doughCost:0, compare:false};
   var INPUTS = ["doughs","production","bags","workerBread","ownerBread","leftover","debt","workerCash","ownerCash","bankTransfer","actual","oldDebt"];
 
   function load(key, def){ try{ var v = JSON.parse(localStorage.getItem(key)); return v==null?def:v; }catch(e){ return def; } }
@@ -364,7 +438,7 @@
   function addOccRow(o){
     o = o || {};
     var div = document.createElement("div"); div.className = "occ";
-    div.innerHTML = '<div><label>اسم الزبون</label><input type="text" class="o_name"></div>'+
+    div.innerHTML = '<div class="o_name_w"><label>اسم الزبون</label><input type="text" class="o_name"></div>'+
       '<div><label>عدد الأكياس</label><input type="number" min="0" inputmode="numeric" class="o_bags"></div>'+
       '<div><label>سعر الكيس (جنيه)</label><input type="number" min="0" inputmode="decimal" class="o_price"></div>'+
       '<div class="o_tot">المبلغ: <b class="o_sum">0</b></div>'+
@@ -377,12 +451,22 @@
     $("occList").appendChild(div);
   }
 
+  // فتح الأقسام المطوية عند وجود بيانات فيها
+  function syncFolds(){
+    $("foldOcc").open = document.querySelectorAll("#occList .occ").length > 0;
+    $("foldExtra").open = $("oldDebt").value !== "" || $("notes").value.trim() !== "";
+  }
+
   /* ---------- العرض ---------- */
+  function setCls(el, base, extra){ el.className = base + (extra ? " " + extra : ""); }
+
   function render(){
     var r = calc();
+    var dg = num("doughs"), prodN = num("production");
     $("priceInfo").textContent = settings.retailQty+" خبزات بـ"+fmt(settings.retailPrice)+" جنيه، والكيس "+settings.bagQty+" خبزة بـ"+fmt(settings.bagPrice)+" جنيه"+(settings.doughCost > 0 ? "، وتكلفة العجنة الواحدة "+fmt(settings.doughCost)+" جنيه" : "، ولم تُحدَّد تكلفة العجنة بعد");
 
-    $("r_prod").textContent = fmt(num("production"));
+    // الخبز
+    $("r_prod").textContent = fmt(prodN);
     $("r_bagsTxt").textContent = fmt(num("bags"));
     $("r_wholesaleBread").textContent = fmt(r.wholesaleBread);
     $("r_occBags").textContent = fmt(r.occBags);
@@ -391,6 +475,7 @@
     $("r_ob").textContent = fmt(num("ownerBread"));
     $("r_left").textContent = fmt(num("leftover"));
     $("r_net").textContent = fmt(r.net);
+    // حاصل البيع
     $("r_sales").textContent = fmt(r.sales);
     $("r_debt").textContent = fmt(num("debt"));
     $("r_wc").textContent = fmt(num("workerCash"));
@@ -398,53 +483,59 @@
     $("r_bt").textContent = fmt(num("bankTransfer"));
     $("r_expected").textContent = fmt(r.expected);
     $("r_actual").textContent = fmt(r.actual);
+    // المبيعات والربح
+    var hasOcc = r.occBags > 0 || r.occMoney > 0;
+    document.querySelectorAll(".occrow").forEach(function(tr){ tr.hidden = !hasOcc; });
+    $("q_retail").textContent = fmt(r.sales);
+    $("q_wholeS").textContent = fmt(num("bags")) + " كيس × " + fmt(settings.bagPrice);
+    $("q_whole").textContent = fmt(r.wholesaleMoney);
+    $("q_occS").textContent = fmt(r.occBags) + " كيس";
+    $("q_occ").textContent = fmt(r.occMoney);
+    $("q_total").textContent = fmt(r.total);
+    $("q_debt").textContent = fmt(r.retailDebt);
+    $("q_coll").textContent = fmt(r.collected);
+    document.querySelectorAll(".costrow").forEach(function(tr){ tr.hidden = !r.hasCost; });
+    $("q_costS").textContent = fmt(dg) + " عجنة × " + fmt(settings.doughCost);
+    $("q_cost").textContent = fmt(r.cost);
+    $("q_profit").textContent = fmtSigned(r.profit);
+    $("q_margin").textContent = r.margin.toFixed(1) + "%";
+    $("q_unit").textContent = prodN > 0 ? (r.cost/prodN).toFixed(2) : "—";
+    $("costHint").textContent = r.hasCost ? "الإيراد = إجمالي المبيعات (يُعتبر محصّلًا)."
+      : (dg > 0 ? "حدّد تكلفة العجنة من تبويب الإعدادات لتظهر التكلفة والربح." : "أدخل عدد العجائن لتظهر التكلفة والربح.");
 
+    // الإدخال
     document.querySelectorAll("#occList .occ").forEach(function(row){
       var b = parseFloat(row.querySelector(".o_bags").value) || 0, p = parseFloat(row.querySelector(".o_price").value) || 0;
       row.querySelector(".o_sum").textContent = fmt(b*p);
     });
     $("b_net").textContent = "صافي المفرد: " + fmt(r.net) + " خبزة";
-    $("b_occ").textContent = "المبلغ: " + fmt(r.occMoney);
-
-    $("d_retail").textContent = fmt(r.sales);
-    $("d_retailS").textContent = fmt(r.net) + " خبزة";
-    $("d_whole").textContent = fmt(r.wholesaleMoney);
-    $("d_wholeS").textContent = fmt(num("bags")) + " كيس × " + fmt(settings.bagPrice);
-    $("d_occ").textContent = fmt(r.occMoney);
-    $("d_occS").textContent = fmt(r.occBags) + " كيس";
-    $("d_occTile").hidden = !(r.occBags > 0 || r.occMoney > 0);
-    $("d_total").textContent = fmt(r.total);
-    $("d_total2").textContent = fmt(r.total);
-    $("d_debt").textContent = fmt(r.retailDebt);
-    $("d_collected").textContent = fmt(r.collected);
-
-    var dg = num("doughs"), prodN = num("production");
+    $("b_occ").textContent = hasOcc ? fmt(r.occBags) + " كيس · " + fmt(r.occMoney) : "لا توجد";
     $("doughHint").textContent = (dg > 0 && prodN > 0) ? "معدل الإنتاج: " + fmt(prodN/dg) + " خبزة لكل عجنة" : "";
-    var ch = [];
-    $("costContent").hidden = !r.hasCost;
-    if(r.hasCost){
-      var pv = r.profit, pc = pv >= 0 ? "pos" : "neg";
-      $("c_cost").textContent = fmt(r.cost);
-      $("c_costS").textContent = fmt(dg) + " عجنة × " + fmt(settings.doughCost);
-      $("c_rev").textContent = fmt(r.total);
-      $("c_profit").innerHTML = '<span class="'+pc+'">'+fmtSigned(pv)+'</span>';
-      $("c_margin").innerHTML = '<span class="'+pc+'">'+r.margin.toFixed(1)+'%</span>';
-      var cv = $("costVerdict");
-      if(pv > 0.5){ cv.className = "result ok"; cv.textContent = "✔ الإيراد غطّى التكلفة، والربح " + fmt(pv) + " جنيه"; }
-      else if(pv >= -0.5){ cv.className = "result none"; cv.textContent = "الإيراد يساوي التكلفة تمامًا (لا ربح ولا خسارة)"; }
-      else { cv.className = "result bad"; cv.textContent = "✘ الإيراد لم يغطِّ التكلفة، والخسارة " + fmt(-pv) + " جنيه"; }
-      if(prodN > 0) ch.push("تكلفة الخبزة الواحدة: " + (r.cost/prodN).toFixed(2) + " جنيه");
-      ch.push("الإيراد = إجمالي المبيعات (يُعتبر محصّلًا)");
-    } else if(dg > 0){
-      ch.push("حدّد تكلفة العجنة من تبويب الإعدادات لتظهر التكلفة والربح.");
-    } else {
-      ch.push("أدخل عدد العجائن لتظهر التكلفة والربح.");
-    }
-    $("costHint").textContent = ch.join(" · ");
 
+    // النتيجة الرئيسية
+    $("netVal").textContent = fmt(r.expected);
+    $("netBox").classList.toggle("neg", r.expected < 0);
+    $("res_total").textContent = fmt(r.total);
+    $("res_totalS").textContent = "المتحصل: " + fmt(r.collected);
+    var pc = $("res_profitCell");
+    if(r.hasCost){
+      var good = r.profit > 0.5, even = Math.abs(r.profit) <= 0.5;
+      setCls(pc, "stat", even ? "" : (good ? "okc" : "badc"));
+      $("res_profit").textContent = fmtSigned(r.profit);
+      $("res_profitS").textContent = (even ? "لا ربح ولا خسارة" : (good ? "✔ غطّى التكلفة" : "✘ لم يغطِّ التكلفة")) + " · " + r.margin.toFixed(1) + "%";
+    } else {
+      setCls(pc, "stat", "");
+      $("res_profit").textContent = "—";
+      $("res_profitS").textContent = dg > 0 ? "حدّد تكلفة العجنة (الإعدادات)" : "أدخل عدد العجائن";
+    }
+
+    // الشريط الثابت
     var entered = $("actual").value !== "";
-    var v = $("verdict"), box = $("sb_diffbox"), sbd = $("sb_diff");
+    var v = $("verdict"), box = $("sb_diffbox"), sbd = $("sb_diff"), spb = $("sb_profitbox");
+    document.body.classList.toggle("cmp-on", !!settings.compare);
     $("sb_exp").textContent = fmt(r.expected);
+    spb.hidden = !r.hasCost;
+    if(r.hasCost){ spb.className = "sb " + (r.profit >= 0 ? "ok" : "bad"); $("sb_profit").textContent = fmtSigned(r.profit); }
     $("sb_act").textContent = entered ? fmt(r.actual) : "—";
     if(!entered){
       v.className = "result none"; v.textContent = "أدخل المبلغ الفعلي في الدرج للمقارنة";
@@ -462,7 +553,7 @@
 
     var w = [];
     if(r.net < 0) w.push("صافي الخبز المباع سالب (" + fmt(r.net) + "). راجع الإنتاج وعدد الأكياس والخبز المنصرف.");
-    if(r.expected < 0) w.push("المبلغ المتوقع سالب. راجع الديون والمنصرف.");
+    if(r.expected < 0) w.push("حاصل البيع اليومي سالب. راجع الديون والمنصرف.");
     $("warnings").innerHTML = w.map(function(t){return '<div class="warn">⚠ '+esc(t)+'</div>'}).join("");
 
     var dn = $("dateNote"), cur = $("date").value, msgs = [];
@@ -489,6 +580,7 @@
     $("notes").value = rec.notes || "";
     $("occList").innerHTML = "";
     (rec.occasions || []).forEach(addOccRow);
+    syncFolds();
     render();
   }
 
@@ -505,45 +597,57 @@
                       .sort(function(a,b){return a.date<b.date?1:-1});
     $("histEmpty").hidden = list.length > 0;
     $("monthDash").hidden = list.length === 0;
+    $("monthMoreWrap").hidden = list.length === 0;
 
-    var sRetail=0, sWhole=0, sOcc=0, sTotal=0, sColl=0, sDiff=0, nDiff=0, sCost=0, sProfit=0, sRevC=0, nCost=0;
+    var sRetail=0, sWhole=0, sOcc=0, sTotal=0, sColl=0, sDiff=0, nDiff=0, sCost=0, sProfit=0, sRevC=0, nCost=0, sNet=0;
     list.forEach(function(rec){
       var r = histCalc(rec);
-      sRetail += r.sales; sWhole += r.wholesaleMoney; sOcc += r.occMoney; sTotal += r.total; sColl += r.collected;
+      sRetail += r.sales; sWhole += r.wholesaleMoney; sOcc += r.occMoney; sTotal += r.total; sColl += r.collected; sNet += r.expected;
       if(rec.actualEntered){ sDiff += r.diff; if(Math.abs(r.diff) >= 0.5) nDiff++; }
       if(r.hasCost){ sCost += r.cost; sProfit += r.profit; sRevC += r.total; nCost++; }
     });
+    var profitTile = nCost
+      ? '<div class="tile total"><div class="t">الربح'+(nCost < list.length ? ' (' + nCost + ' يوم فيها عجائن)' : '')+'</div><div class="v '+(sProfit>=0?'pos':'neg')+'">'+fmtSigned(sProfit)+'</div><div class="s">النسبة '+(sRevC>0 ? (sProfit/sRevC*100).toFixed(1) : "0")+'%</div></div>'
+      : tile("الربح", "—", "أدخل عدد العجائن وتكلفتها");
     $("monthDash").innerHTML =
       tile("عدد الأيام", list.length) +
+      '<div class="tile total"><div class="t">إجمالي المبيعات</div><div class="v">'+fmt(sTotal)+'</div><div class="s">المتحصل: '+fmt(sColl)+'</div></div>' +
+      tile("مجموع حاصل البيع اليومي", fmt(sNet)) +
+      profitTile;
+    $("monthMore").innerHTML =
       tile("البيع المفرد", fmt(sRetail)) +
       tile("التوزيع (الجملة)", fmt(sWhole)) +
       tile("المناسبات", fmt(sOcc)) +
-      '<div class="tile total"><div class="t">إجمالي المبيعات</div><div class="v">'+fmt(sTotal)+'</div><div class="s">المتحصل: '+fmt(sColl)+'</div></div>' +
-      tile("صافي فروقات الدرج", '<span class="'+(Math.abs(sDiff)<0.5?'pos':'neg')+'">'+(Math.abs(sDiff)<0.5?'0':fmtSigned(sDiff))+'</span>', nDiff + " يوم فيها فرق") +
-      (nCost ? tile("الربح (أيام فيها عجائن: " + nCost + ")", '<span class="'+(sProfit>=0?'pos':'neg')+'">'+fmtSigned(sProfit)+'</span>', "النسبة " + (sRevC>0 ? (sProfit/sRevC*100).toFixed(1) : "0") + "% · التكلفة " + fmt(sCost)) : "");
+      (nCost ? tile("التكلفة", fmt(sCost)) : "") +
+      (settings.compare ? tile("صافي فروقات الدرج", '<span class="'+(Math.abs(sDiff)<0.5?'pos':'neg')+'">'+(Math.abs(sDiff)<0.5?'0':fmtSigned(sDiff))+'</span>', nDiff + " يوم فيها فرق") : "");
 
     $("histList").innerHTML = list.map(function(rec){
       var r = histCalc(rec), d = rec.data;
-      var chip;
-      if(!rec.actualEntered) chip = '<span class="chip none">لم يُدخل الفعلي</span>';
-      else if(Math.abs(r.diff) < 0.5) chip = '<span class="chip ok">مطابق ✔</span>';
-      else chip = '<span class="chip bad">'+(r.diff>0?'زيادة ':'نقص ')+fmt(Math.abs(r.diff))+'</span>';
-      return '<div class="day">'+
-        '<div class="day-top"><a href="#" class="day-date" data-open="'+esc(rec.date)+'">'+esc(dateLabel(rec.date))+'</a>'+chip+'</div>'+
+      var chip = "";
+      if(settings.compare){
+        if(!rec.actualEntered) chip = '<span class="chip none">لم يُدخل الفعلي</span>';
+        else if(Math.abs(r.diff) < 0.5) chip = '<span class="chip ok">مطابق ✔</span>';
+        else chip = '<span class="chip bad">'+(r.diff>0?'زيادة ':'نقص ')+fmt(Math.abs(r.diff))+'</span>';
+      }
+      var prof = r.hasCost ? '<span class="dp '+(r.profit>=0?'pos':'neg')+'"><small>الربح</small>'+fmtSigned(r.profit)+'</span>' : "";
+      return '<details class="day">'+
+        '<summary><span class="dd">'+esc(dateLabel(rec.date))+'</span>'+
+          '<span class="dv"><small>حاصل البيع</small>'+fmt(r.expected)+'</span>'+prof+chip+'</summary>'+
+        '<div class="dbody">'+
         '<div class="stats">'+
           '<div><span>الإنتاج</span><b>'+fmt(d.production||0)+'</b></div>'+
           '<div><span>المباع مفرد</span><b>'+fmt(r.net)+'</b></div>'+
           '<div><span>أكياس الجملة</span><b>'+fmt(d.bags||0)+'</b></div>'+
           '<div><span>أكياس المناسبات</span><b>'+fmt(r.occBags)+'</b></div>'+
-          '<div><span>المتوقع في الدرج</span><b>'+fmt(r.expected)+'</b></div>'+
-          '<div><span>الفعلي</span><b>'+(rec.actualEntered?fmt(r.actual):'—')+'</b></div>'+
           '<div><span>إجمالي المبيعات</span><b>'+fmt(r.total)+'</b></div>'+
           '<div><span>المتحصل</span><b>'+fmt(r.collected)+'</b></div>'+
-          (r.hasCost ? '<div><span>التكلفة ('+fmt(r.doughs)+' عجنة)</span><b>'+fmt(r.cost)+'</b></div><div><span>الربح</span><b class="'+(r.profit>=0?'pos':'neg')+'">'+fmtSigned(r.profit)+' ('+r.margin.toFixed(1)+'%)</b></div>' : '')+
+          (settings.compare ? '<div><span>الفعلي</span><b>'+(rec.actualEntered?fmt(r.actual):'—')+'</b></div>' : '')+
+          (r.hasCost ? '<div><span>التكلفة ('+fmt(r.doughs)+' عجنة)</span><b>'+fmt(r.cost)+'</b></div><div><span>نسبة الربح</span><b>'+r.margin.toFixed(1)+'%</b></div>' : '')+
         '</div>'+
         (rec.notes ? '<div class="day-notes">📝 '+esc(rec.notes)+'</div>' : '')+
-        '<div class="btns no-print"><button type="button" class="sec" data-open="'+esc(rec.date)+'">فتح / تعديل</button><button type="button" class="del" data-del="'+esc(rec.date)+'">حذف</button></div>'+
-      '</div>';
+        '<div class="btns no-print"><button type="button" class="sec half" data-open="'+esc(rec.date)+'">فتح / تعديل</button><button type="button" class="del half" data-del="'+esc(rec.date)+'">حذف</button></div>'+
+        '</div>'+
+      '</details>';
     }).join("");
   }
 
@@ -578,6 +682,7 @@
     $("notes").value = "";
     $("occList").innerHTML = "";
     $("date").value = suggestDate();
+    syncFolds();
     update();
     window.scrollTo(0, 0);
   }
@@ -590,7 +695,7 @@
   }
 
   function csv(){
-    var rows = [["التاريخ","الإنتاج","خبز الجملة","خبز المناسبات","خبز العمال","خبز صاحب المخبز","المتبقي","المباع مفرد","قيمة المفرد","الديون","أجور العمال","مسحوبات المالك","تحويلات بنكية","المتوقع","الفعلي","الفرق","أكياس الجملة","قيمة الجملة","أكياس المناسبات","قيمة المناسبات","إجمالي المبيعات","إجمالي المتحصل","عدد العجائن","التكلفة","الربح","نسبة الربح %","ديون قديمة محصلة","ملاحظات"]];
+    var rows = [["التاريخ","الإنتاج","خبز الجملة","خبز المناسبات","خبز العمال","خبز صاحب المخبز","المتبقي","المباع مفرد","قيمة المفرد","الديون","أجور العمال","مسحوبات المالك","تحويلات بنكية","حاصل البيع اليومي","الفعلي","الفرق","أكياس الجملة","قيمة الجملة","أكياس المناسبات","قيمة المناسبات","إجمالي المبيعات","إجمالي المتحصل","عدد العجائن","التكلفة","الربح","نسبة الربح %","ديون قديمة محصلة","ملاحظات"]];
     records.slice().sort(function(a,b){return a.date<b.date?-1:1}).forEach(function(rec){
       var r = histCalc(rec), d = rec.data;
       rows.push([rec.date,d.production,r.wholesaleBread,r.occBread,d.workerBread,d.ownerBread,d.leftover,r.net,Math.round(r.sales),d.debt,d.workerCash,d.ownerCash,d.bankTransfer||0,Math.round(r.expected),rec.actualEntered?d.actual:"",rec.actualEntered?Math.round(r.diff):"",d.bags,r.wholesaleMoney,r.occBags,r.occMoney,Math.round(r.total),Math.round(r.collected),d.doughs||0,r.hasCost?Math.round(r.cost):"",r.hasCost?Math.round(r.profit):"",r.hasCost?Math.round(r.margin*10)/10:"",d.oldDebt,rec.notes||""]);
@@ -648,6 +753,12 @@
 
   INPUTS.concat(["date"]).forEach(function(k){ $(k).addEventListener("input", update); });
   $("notes").addEventListener("input", update);
+  $("s_compare").checked = !!settings.compare;
+  $("s_compare").addEventListener("change", function(){
+    settings.compare = this.checked;
+    store(KEY_SET, settings);
+    update(); renderHistory();
+  });
   $("addOcc").addEventListener("click", function(){ addOccRow(); update(); });
   $("saveBtn").addEventListener("click", save);
   $("saveBtn2").addEventListener("click", save);
@@ -702,7 +813,27 @@
     $("storeNote").textContent = "⚠ هذا المتصفح لا يحفظ البيانات، فلن تبقى السجلات بعد إغلاق الصفحة. افتح الصفحة مباشرة في متصفح Chrome (وليس من داخل تطبيق آخر أو في التصفح الخاص).";
   }
   try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
-  try{ if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js"); }catch(e){}
+  // العمل دون إنترنت + عرض حالته في الإعدادات
+  (function(){
+    var el = $("offlineStatus");
+    function set(ok, msg){ el.className = "result " + (ok ? "ok" : "none"); el.textContent = msg; }
+    if(!("serviceWorker" in navigator) || !/^https?:$/.test(location.protocol)){
+      set(false, "غير مفعّل: افتح الصفحة من رابط الموقع وليس كملف على الجهاز."); return;
+    }
+    var hadCtrl = !!navigator.serviceWorker.controller;
+    function check(){
+      if(!navigator.serviceWorker.controller){ set(false, "لم يجهز بعد: أغلق التطبيق وافتحه مرة أخرى وأنت متصل بالإنترنت."); return; }
+      caches.keys().then(function(k){
+        set(k.length > 0, k.length > 0 ? "✔ جاهز للعمل دون إنترنت" : "لم يجهز بعد: أغلق التطبيق وافتحه مرة أخرى وأنت متصل بالإنترنت.");
+      }).catch(function(){ set(false, "تعذّر التحقق من حالة العمل دون إنترنت."); });
+    }
+    navigator.serviceWorker.register("sw.js").catch(function(){ set(false, "تعذّر تفعيل العمل دون إنترنت. تأكد من رفع ملف sw.js مع بقية الملفات."); });
+    navigator.serviceWorker.ready.then(check);
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      check();
+      if(hadCtrl) toast("تم تحديث التطبيق، سيظهر الإصدار الجديد عند الفتح القادم");
+    });
+  })();
 })();
 </script>
 </body>
